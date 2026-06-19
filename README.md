@@ -5,8 +5,11 @@ One command to set up the [Pi](https://github.com/earendil-works/pi-mono) coding
 ## Quick start
 
 ```bash
-npx @tplog/hasapi
+npx -y @tplog/hasapi
 ```
+
+The `-y` flag skips npx's first-run install confirmation. Without it, an uncached or
+non-interactive run can fail with `sh: hasapi: command not found`.
 
 It will:
 
@@ -20,10 +23,10 @@ Install is **idempotent** — extensions already in your pi settings are skipped
 
 | Command | What it does |
 | --- | --- |
-| `npx @tplog/hasapi` | Install everything (extensions + skills) |
-| `npx @tplog/hasapi status` | Show which extensions/skills are installed |
-| `npx @tplog/hasapi remove` | Remove the hasapi extensions and skills |
-| `npx @tplog/hasapi doctor` | Check your environment for common problems |
+| `npx -y @tplog/hasapi` | Install everything (extensions + skills) |
+| `npx -y @tplog/hasapi status` | Show which extensions/skills are installed |
+| `npx -y @tplog/hasapi remove` | Remove the hasapi extensions and skills |
+| `npx -y @tplog/hasapi doctor` | Check your environment for common problems |
 
 ## What gets installed
 
