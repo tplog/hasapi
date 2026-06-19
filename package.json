@@ -1,0 +1,39 @@
+{
+  "name": "hasapi",
+  "version": "0.1.0",
+  "description": "One-shot installer that adds curated extensions and skills to the Pi coding agent.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tplog/hasapi.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tplog/hasapi/issues"
+  },
+  "homepage": "https://github.com/tplog/hasapi#readme",
+  "type": "module",
+  "bin": {
+    "hasapi": "bin/hasapi.mjs"
+  },
+  "files": [
+    "bin",
+    "hasapi-skills",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node bin/hasapi.mjs"
+  },
+  "keywords": [
+    "pi",
+    "pi-mono",
+    "pi-coding-agent",
+    "installer",
+    "npx",
+    "skills",
+    "extensions"
+  ]
+}
