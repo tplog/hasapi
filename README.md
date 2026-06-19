@@ -5,7 +5,7 @@ One command to set up the [Pi](https://github.com/earendil-works/pi-mono) coding
 ## Quick start
 
 ```bash
-npx hasapi
+npx @tplog/hasapi
 ```
 
 It will:
@@ -20,10 +20,10 @@ Install is **idempotent** — extensions already in your pi settings are skipped
 
 | Command | What it does |
 | --- | --- |
-| `npx hasapi` | Install everything (extensions + skills) |
-| `npx hasapi status` | Show which extensions/skills are installed |
-| `npx hasapi remove` | Remove the hasapi extensions and skills |
-| `npx hasapi doctor` | Check your environment for common problems |
+| `npx @tplog/hasapi` | Install everything (extensions + skills) |
+| `npx @tplog/hasapi status` | Show which extensions/skills are installed |
+| `npx @tplog/hasapi remove` | Remove the hasapi extensions and skills |
+| `npx @tplog/hasapi doctor` | Check your environment for common problems |
 
 ## What gets installed
 

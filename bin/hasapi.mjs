@@ -262,11 +262,11 @@ function cmdHelp() {
 	console.log(`${bold("hasapi")} — install hasapi extensions + skills onto pi
 
 Usage:
-  npx hasapi            Install everything (extensions + skills)
-  npx hasapi status     Show what's installed
-  npx hasapi remove     Remove hasapi extensions + skills
-  npx hasapi doctor     Check environment
-  npx hasapi help       Show this help`);
+  npx @tplog/hasapi            Install everything (extensions + skills)
+  npx @tplog/hasapi status     Show what's installed
+  npx @tplog/hasapi remove     Remove hasapi extensions + skills
+  npx @tplog/hasapi doctor     Check environment
+  npx @tplog/hasapi help       Show this help`);
 	return 0;
 }
 
