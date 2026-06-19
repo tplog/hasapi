@@ -31,7 +31,6 @@ const EXTENSIONS = [
 	{ id: "generative-ui", source: "npm:pi-generative-ui", description: "Generative UI" },
 	{ id: "glimpse", source: "npm:glimpseui", description: "Native UI widgets and dialogs" },
 	{ id: "provider-kimi-code", source: "npm:pi-provider-kimi-code", description: "Kimi model provider" },
-	{ id: "claude-bridge", source: "npm:pi-claude-bridge", description: "Claude Code provider bridge" },
 	{ id: "chrome-devtools", source: "npm:@narumitw/pi-chrome-devtools", description: "Chrome DevTools control" },
 ];
 

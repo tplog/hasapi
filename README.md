@@ -44,7 +44,6 @@ Install is **idempotent** — extensions already in your pi settings are skipped
 - `npm:pi-generative-ui` — generative UI
 - `npm:glimpseui` — native UI widgets and dialogs
 - `npm:pi-provider-kimi-code` — Kimi model provider
-- `npm:pi-claude-bridge` — Claude Code provider bridge
 - `npm:@narumitw/pi-chrome-devtools` — Chrome DevTools control
 
 **Skills** — the `hasapi-skills/` bundle (diagnosis + implementation chain) copied to

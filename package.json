@@ -1,6 +1,6 @@
 {
   "name": "@tplog/hasapi",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "One-shot installer that adds curated extensions and skills to the Pi coding agent.",
   "license": "MIT",
   "repository": {
