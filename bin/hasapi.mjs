@@ -16,7 +16,7 @@ const EXTENSIONS = [
 	{ id: "plannotator", source: "npm:@plannotator/pi-extension", description: "Planning and annotation workflow" },
 	{ id: "mcp-adapter", source: "npm:pi-mcp-adapter", description: "MCP server integration" },
 	{ id: "goal", source: "npm:@narumitw/pi-goal", description: "Goal tracking" },
-	{ id: "ask-user-question", source: "npm:@juicesharp/rpiv-ask-user-question", description: "Ask-user prompts" },
+	{ id: "rpiv-pi", source: "npm:@juicesharp/rpiv-pi", description: "Skill-based dev workflow: research → design → plan → implement → validate" },
 	{ id: "context-mode", source: "npm:context-mode", description: "Context-mode tooling" },
 	{ id: "btw", source: "npm:@narumitw/pi-btw", description: "Side-chat popover" },
 	{ id: "generative-ui", source: "npm:pi-generative-ui", description: "Generative UI" },

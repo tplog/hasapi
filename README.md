@@ -37,7 +37,7 @@ Install is **idempotent** — extensions already in your pi settings are skipped
 - `npm:@plannotator/pi-extension` — planning and annotation workflow
 - `npm:pi-mcp-adapter` — MCP server integration
 - `npm:@narumitw/pi-goal` — goal tracking
-- `npm:@juicesharp/rpiv-ask-user-question` — ask-user prompts
+- `npm:@juicesharp/rpiv-pi` — skill-based dev workflow (research → design → plan → implement → validate)
 - `npm:context-mode` — context-mode tooling
 - `npm:@narumitw/pi-btw` — side-chat popover
 - `npm:pi-generative-ui` — generative UI
