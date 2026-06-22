@@ -1,7 +1,7 @@
 {
   "name": "@tplog/hasapi",
   "version": "0.1.1",
-  "description": "One-shot installer that adds curated extensions and skills to the Pi coding agent.",
+  "description": "One-shot installer that adds curated extensions to the Pi coding agent.",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -17,7 +17,6 @@
   },
   "files": [
     "bin",
-    "hasapi-skills",
     "README.md",
     "LICENSE"
   ],
@@ -33,7 +32,6 @@
     "pi-coding-agent",
     "installer",
     "npx",
-    "skills",
     "extensions"
   ]
 }

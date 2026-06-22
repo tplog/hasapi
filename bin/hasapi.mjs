@@ -1,17 +1,8 @@
 #!/usr/bin/env node
 import { spawnSync } from "node:child_process";
-import {
-	existsSync,
-	readFileSync,
-	writeFileSync,
-	copyFileSync,
-	mkdirSync,
-	cpSync,
-	rmSync,
-} from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { homedir, platform } from "node:os";
-import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
+import { join } from "node:path";
 import { cwd } from "node:process";
 
 // ---------------------------------------------------------------------------
@@ -34,10 +25,6 @@ const EXTENSIONS = [
 	{ id: "chrome-devtools", source: "npm:@narumitw/pi-chrome-devtools", description: "Chrome DevTools control" },
 ];
 
-// Bundled skills dir, copied as a unit into ~/.pi/agent/skills/hasapi-skills.
-// The whole folder moves together so each skill's ../_shared/* paths still resolve.
-const SKILLS_BUNDLE_DIR = "hasapi-skills";
-
 const PI_CORE_SPEC = "@earendil-works/pi-coding-agent";
 
 // ---------------------------------------------------------------------------
@@ -54,11 +41,7 @@ const yellow = paint("33");
 // ---------------------------------------------------------------------------
 // Paths
 // ---------------------------------------------------------------------------
-const HERE = dirname(fileURLToPath(import.meta.url));
-const bundledSkillsPath = () => join(HERE, "..", SKILLS_BUNDLE_DIR);
 const settingsPath = () => join(homedir(), ".pi", "agent", "settings.json");
-const skillsRoot = () => join(homedir(), ".pi", "agent", "skills");
-const installedSkillsPath = () => join(skillsRoot(), SKILLS_BUNDLE_DIR);
 
 // ---------------------------------------------------------------------------
 // spawn / settings
@@ -86,20 +69,6 @@ function readSettings() {
 	} catch (err) {
 		return { path, exists: true, parsed: null, error: err instanceof Error ? err.message : String(err) };
 	}
-}
-
-function writeSettings(mutate) {
-	const current = readSettings();
-	if (current.error) return { ok: false, path: current.path, error: current.error };
-	const settings = current.parsed ?? {};
-	if (!mutate(settings)) return { ok: true, path: current.path, changed: false };
-	mkdirSync(dirname(current.path), { recursive: true });
-	if (current.exists) {
-		const stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d{3}Z$/, "Z");
-		copyFileSync(current.path, `${current.path}.hasapi.${stamp}.bak`);
-	}
-	writeFileSync(current.path, JSON.stringify(settings, null, 2) + "\n", "utf8");
-	return { ok: true, path: current.path, changed: true };
 }
 
 function installedSources() {
@@ -148,33 +117,6 @@ function installExtensions() {
 	return failures;
 }
 
-function installSkills() {
-	const src = bundledSkillsPath();
-	if (!existsSync(src)) {
-		console.error(red(`Bundled skills not found at ${src}`));
-		return 1;
-	}
-	const dest = installedSkillsPath();
-	mkdirSync(skillsRoot(), { recursive: true });
-	cpSync(src, dest, { recursive: true });
-	console.log(green(`  ✓ skills → ${dest}`));
-	return 0;
-}
-
-function enableSkillCommands() {
-	const result = writeSettings((s) => {
-		if (s.enableSkillCommands === true) return false;
-		s.enableSkillCommands = true;
-		return true;
-	});
-	if (!result.ok) {
-		console.error(red(`Could not update settings (${result.error}). Set "enableSkillCommands": true manually.`));
-		return 1;
-	}
-	if (result.changed) console.log(green('  ✓ enableSkillCommands: true'));
-	return 0;
-}
-
 // ---------------------------------------------------------------------------
 // commands
 // ---------------------------------------------------------------------------
@@ -183,13 +125,8 @@ function cmdInstall() {
 	if (!ensurePi()) return 127;
 
 	console.log(bold("Extensions"));
-	const extFailures = installExtensions();
+	const failures = installExtensions();
 
-	console.log(bold("\nSkills"));
-	const skillFailures = installSkills();
-	const settingsFailures = enableSkillCommands();
-
-	const failures = extFailures + skillFailures + settingsFailures;
 	console.log("");
 	if (failures > 0) {
 		console.error(red(`Done with ${failures} failure(s).`));
@@ -206,12 +143,6 @@ function cmdStatus() {
 		const ok = installed.has(ext.source);
 		console.log(`  ${ok ? green("✓") : yellow("•")} ${ext.id} ${dim(ext.source)}`);
 	}
-	console.log(bold("\nSkills"));
-	const skillsOk = existsSync(installedSkillsPath());
-	console.log(`  ${skillsOk ? green("✓") : yellow("•")} ${SKILLS_BUNDLE_DIR} ${dim(installedSkillsPath())}`);
-	const { parsed } = readSettings();
-	const cmdsOn = parsed?.enableSkillCommands === true;
-	console.log(`  ${cmdsOn ? green("✓") : yellow("•")} enableSkillCommands`);
 	return 0;
 }
 
@@ -230,14 +161,6 @@ function cmdRemove() {
 			failures++;
 		}
 	}
-	console.log(bold("\nRemoving skills"));
-	const dest = installedSkillsPath();
-	if (existsSync(dest)) {
-		rmSync(dest, { recursive: true, force: true });
-		console.log(green(`  ✓ removed ${dest}`));
-	} else {
-		console.log(dim(`  • skills not present`));
-	}
 	return failures > 0 ? 1 : 0;
 }
 
@@ -248,7 +171,6 @@ function cmdDoctor() {
 	checks.push([hasCmd("pi"), "`pi` on PATH"]);
 	const s = readSettings();
 	checks.push([!s.error, s.error ? `settings.json invalid JSON (${s.error})` : `settings.json readable`]);
-	checks.push([existsSync(bundledSkillsPath()), `bundled skills present`]);
 	let ok = true;
 	for (const [pass, label] of checks) {
 		console.log(`  ${pass ? green("✓") : red("✗")} ${label}`);
@@ -258,12 +180,12 @@ function cmdDoctor() {
 }
 
 function cmdHelp() {
-	console.log(`${bold("hasapi")} — install hasapi extensions + skills onto pi
+	console.log(`${bold("hasapi")} — install hasapi extensions onto pi
 
 Usage:
-  npx @tplog/hasapi            Install everything (extensions + skills)
+  npx @tplog/hasapi            Install the curated pi extensions
   npx @tplog/hasapi status     Show what's installed
-  npx @tplog/hasapi remove     Remove hasapi extensions + skills
+  npx @tplog/hasapi remove     Remove hasapi extensions
   npx @tplog/hasapi doctor     Check environment
   npx @tplog/hasapi help       Show this help`);
 	return 0;
